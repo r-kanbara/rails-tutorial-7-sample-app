@@ -49,6 +49,19 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+  # アカウントを有効にする
+  def activate
+    # update_columnsメソッドは，update_attributeメソッドと異なり，バリデーションやsave_beforeのようなコールバックの実行がされない
+    update_columns(activated: true, activated_at: Time.zone.now)
+    # update_attribute(:activated, true)
+    # update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # 有効化用のメールを送信する
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
   private
     # メールアドレスをすべて小文字にする
     def downcase_email
