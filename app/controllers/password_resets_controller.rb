@@ -27,7 +27,7 @@ class PasswordResetsController < ApplicationController
       @user.errors.add(:password, "can't be empty")
       render "edit", status: :unprocessable_entity
     elsif @user.update(user_params)
-      @user.forget  # 12.3.2 演習3の「パスワードリセット時にユーザーセッションをすべて破棄する」の対応（解答に自信なし）
+      @user.update_attribute(:reset_digest, nil)
       reset_session
       log_in @user
       flash[:success] = "Password has been reset."
