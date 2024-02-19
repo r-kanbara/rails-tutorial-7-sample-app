@@ -45,6 +45,7 @@ end
 
 group :production do
   gem "pg"
+  # gem "aws-sdk-s3", "1.114.0", require: false　
 end
 
 # Windows ではタイムゾーン情報用の tzinfo-data gem を含める必要があります
