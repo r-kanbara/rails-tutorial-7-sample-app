@@ -24,6 +24,9 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", login_path, count: 0
     # assert_select "a[href=?]", "https://rubyonrails.org/"
 
+    assert_match @user.following.count.to_s, response.body
+    assert_match @user.followers.count.to_s, response.body
+
     get contact_path
     assert_select "title", full_title("Contact")
     get signup_path
