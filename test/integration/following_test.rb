@@ -28,6 +28,15 @@ class FollowPagesTest < Following
       assert_select "a[href=?]", user_path(user)
     end
   end
+
+  test "feed on Home page" do
+    get root_path
+    @user.feed.paginate(page: 1).each do |micropost|
+      # CGI.escapeHTMLしないと，response.bodyに含まれる文字列"I&#39;m sorry."にマッチできない
+      assert_match CGI.escapeHTML(micropost.content), response.body
+      puts micropost.content
+    end
+  end
 end
 
 class FollowTest < Following
